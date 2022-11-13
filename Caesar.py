@@ -11,5 +11,5 @@ def encrypt(text: str, shift: int):
 def decrypt(text: str,shift: int):
     decrypted = ""
     for char in text:
-        decrypted += chr(ord(char) + shift)
+        decrypted += chr(ord(char) - shift)
     return decrypted
