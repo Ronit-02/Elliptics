@@ -3,9 +3,10 @@ from tabnanny import check
 import Caesar as sh
 import PlayFair as pe
 import RSA as rsa
+import vigenere as vig
 
-st.markdown("#  Encryption")
-st.sidebar.markdown("# Encryption Techniques")
+st.markdown("#  ELLIPTCS")
+st.sidebar.markdown("# Techniques Available")
 
 
 # SIDEBAR
@@ -23,7 +24,7 @@ with st.sidebar:
 encrypt = ["Vigenère", "Caesar", "PlayFair", "RSA"]
 
 option = st.selectbox(
-    'Choose your encryption technique',
+    'Choose your technique',
     encrypt
 )
 
@@ -40,37 +41,45 @@ if option == "Vigenère":
 
     # Text Area or File Upload
 
-    input_type = st.selectbox(
-        label="Select input type",
+    key = st.text_area(
+            "Enter key:", help="The key text for encryption.", height=45)
+
+    input_type_text = st.selectbox(
+        label="Select input type for TEXT",
         options=["Text", "File"],
         help="Select your input type (i.e. text or file).",
     )
 
-    if input_type == "Text":
+    if input_type_text == "Text":
         text = st.text_area(
             "Enter text:", help="The text to encrypt.", height=45)
     else:
         file = st.file_uploader(label="Upload a file:",
-                                help="The file to encrypt.")
+                                help="The text file to encrypt.")
         if file is not None:
             text = file.getvalue().decrypt("utf-8")
-
-
-    # Key
-
-    col1, col2 = st.columns([2,3])
-    with col1:
-        Key = st.text_input("Key", value = "LEMON")    # Key
-    with col2:
-        pass
 
 
     # Start Button
 
     if st.button("Start"):
-        cipher_text = "AFDFSF"
-        st.write("Cipher Text")
-        st.code(cipher_text)
+        if text.strip() != "":
+            with st.expander("Given Key"):
+                st.info(key)
+
+            with st.expander("Given text"):
+                st.info(text)
+
+            with st.expander("Encrypted Text"):
+                encrypted = vig.encrypt(key, text)
+                st.info(encrypted)
+
+            with st.expander("Decrypted Text"):
+                decrypted = vig.decrypt(key, encrypted)
+                st.info(decrypted)
+
+        else:
+            st.error("Please enter text.")
 
     
 
@@ -144,20 +153,9 @@ if option == "PlayFair":
 
     # Text Area or File Upload
 
-    input_type_key = st.selectbox(
-        label="Select input type for KEY",
-        options=["Text", "File"],
-        help="Select your input type (i.e. text or file).",
-    )
-
-    if input_type_key == "Text":
-        key = st.text_area(
+    
+    key = st.text_area(
             "Enter key:", help="The key text for encryption.", height=45)
-    else:
-        file = st.file_uploader(label="Upload a file:",
-                                help="The key file for encryption.")
-        if file is not None:
-            key = file.getvalue().decrypt("utf-8")
 
     input_type_text = st.selectbox(
         label="Select input type for TEXT",
@@ -190,7 +188,7 @@ if option == "PlayFair":
                 st.info(encrypted)
 
             with st.expander("Decrypted Text"):
-                decrypted = pe.decrypt(key, text)
+                decrypted = pe.decrypt(key, encrypted)
                 st.info(decrypted)
 
         else:
