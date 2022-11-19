@@ -1,37 +1,24 @@
 import streamlit as st
 from tabnanny import check
-import resources.caesar as sh
-import resources.playfair as pe
+import resources.caesar as cs
+import resources.playfair as pf
 import resources.rsa as rsa
 import resources.vigenere as vig
 
-st.markdown("#  ELLIPTCS")
-st.sidebar.markdown("# Techniques Available")
+
+st.markdown("# ELLIPTCS")
 
 
 # SIDEBAR
 
-with st.sidebar:
-    # st.write("The following list won’t indent no matter what I try:")
-    st.markdown("- Vigenère")
-    st.markdown("- Caesar")
-    st.markdown("- Playfair")
-    st.markdown("- RSA")
+selected_type = st.sidebar.selectbox("Select a type", ("Encryption", "Decryption"))
+selected_technique = st.sidebar.selectbox("Select a technique", ("Vigenère", "Playfair", "Caesar",  "RSA"))
 
-
-# DROPDOWN MENU
-
-encrypt = ["Vigenère", "Caesar", "PlayFair", "RSA"]
-
-option = st.selectbox(
-    'Choose your technique',
-    encrypt
-)
 
 
 # Vigenere Cipher (text, Key, transformed_text)
 
-if option == "Vigenère":
+if selected_technique == "Vigenère":
 
     st.caption(""" Vigenère cipher is a method of encrypting alphabetic text by 
     using a series of interwoven Caesar ciphers, based on the letters of a keyword. 
@@ -64,19 +51,27 @@ if option == "Vigenère":
 
     if st.button("Start"):
         if text.strip() != "":
-            with st.expander("Given Key"):
-                st.info(key)
+            
+            if selected_type == "Encryption":
+                "Encrypted Text"
+                st.code(vig.encrypt(key, text))    
+            else: 
+                "Decrypted Text"
+                st.code(vig.decrypt(key, text))
+            
+            # with st.expander("Given Key"):
+            #     st.info(key)
 
-            with st.expander("Given text"):
-                st.info(text)
+            # with st.expander("Given text"):
+            #     st.info(text)
 
-            with st.expander("Encrypted Text"):
-                encrypted = vig.encrypt(key, text)
-                st.info(encrypted)
+            # with st.expander("Encrypted Text"):
+            #     encrypted = vig.encrypt(key, text)
+            #     st.info(encrypted)
 
-            with st.expander("Decrypted Text"):
-                decrypted = vig.decrypt(key, encrypted)
-                st.info(decrypted)
+            # with st.expander("Decrypted Text"):
+            #     decrypted = vig.decrypt(key, encrypted)
+            #     st.info(decrypted)
 
         else:
             st.error("Please enter text.")
@@ -89,7 +84,7 @@ if option == "Vigenère":
     # st.write("Transformed Text: ", cipher_text)
 
 
-if option == "Caesar":
+if selected_technique == "Caesar":
 
     st.caption(""" Caesar cipher is a is a type of substitution cipher 
     in which each letter in the plaintext is replaced by a letter some 
@@ -130,21 +125,17 @@ if option == "Caesar":
 
     if st.button("Start"):
         if text.strip() != "":
-            with st.expander("Given Text"):
-                st.info(text)
-
-            with st.expander("Encrypted Text"):
-                encrypted = sh.encrypt(text, shift_by)
-                st.info(encrypted)
-
-            with st.expander("Decrypt Text"):
-                decrypted = sh.decrypt(encrypted, shift_by)
-                st.info(decrypted)
+            if selected_type == "Encryption":
+                "Encrypted Text"
+                st.code(cs.encrypt(text, shift_by))    
+            else: 
+                "Decrypted Text"
+                st.code(cs.decrypt(text, shift_by))
         else:
             st.error("Please enter text.")
 
 
-if option == "PlayFair":
+if selected_technique == "PlayFair":
 
     st.caption(""" Playfair cipher is a manual symmetric encryption technique 
     and was the first literal digram substitution cipher.
@@ -177,24 +168,17 @@ if option == "PlayFair":
 
     if st.button("Start"):
         if text.strip() != "":
-            with st.expander("Given Key"):
-                st.info(key)
-
-            with st.expander("Given text"):
-                st.info(text)
-
-            with st.expander("Encrypted Text"):
-                encrypted = pe.encrypt(key, text)
-                st.info(encrypted)
-
-            with st.expander("Decrypted Text"):
-                decrypted = pe.decrypt(key, encrypted)
-                st.info(decrypted)
+            if selected_type == "Encryption":
+                "Encrypted Text"
+                st.code(pf.encrypt(key, text))    
+            else: 
+                "Decrypted Text"
+                st.code(pf.decrypt(key, text))
 
         else:
             st.error("Please enter text.")
 
-if option == 'RSA':
+if selected_technique == 'RSA':
 
     st.caption(""" RSA is a public-key cryptosystem that is widely used for 
     secure data transmission. It is also one of the oldest.
@@ -211,7 +195,7 @@ if option == 'RSA':
 
     if input_type == "Text":
         text = st.text_area(
-            "Enter text:", help="The text to encrypt.", height=180)
+            "Enter text:", help="The text to encrypt.", height=45   )
     else:
         file = st.file_uploader(label="Upload a file:",
                                 help="The file to encrypt.")
@@ -251,18 +235,15 @@ if option == 'RSA':
         private = (d,n)
 
         if text.strip() != "":
-            with st.expander("Given Text"):
-                st.info(text)
-
-            with st.expander("Encrypted Text"):
-                encrypted = rsa.encrypt(public, text)
-                st.info(encrypted)
-
-            with st.expander("Decrypted Text"):
-                decrypted = rsa.decrypt(private, encrypted)
-                st.info(decrypted)
+            if selected_type == "Encryption":
+                "Encrypted Text"
+                st.code(rsa.encrypt(public, text))    
+            else: 
+                "Decrypted Text"
+                st.code(rsa.decrypt(private, text))
         else:
             st.error("Please enter text.")
+
 
 
 
