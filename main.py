@@ -1,9 +1,9 @@
 import streamlit as st
 from tabnanny import check
-import Caesar as sh
-import PlayFair as pe
-import RSA as rsa
-import vigenere as vig
+import resources.caesar as sh
+import resources.playfair as pe
+import resources.rsa as rsa
+import resources.vigenere as vig
 
 st.markdown("#  ELLIPTCS")
 st.sidebar.markdown("# Techniques Available")
