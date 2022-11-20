@@ -12,7 +12,7 @@ st.markdown("# ELLIPTCS")
 # SIDEBAR
 
 selected_type = st.sidebar.selectbox("Select a type", ("Encryption", "Decryption"))
-selected_technique = st.sidebar.selectbox("Select a technique", ("Vigenère", "Playfair", "Caesar",  "RSA"))
+selected_technique = st.sidebar.selectbox("Select a technique", ("Vigenère", "PlayFair", "Caesar",  "RSA"))
 
 
 
