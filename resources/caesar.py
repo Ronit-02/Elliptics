@@ -1,4 +1,3 @@
-
 def encrypt(text: str, shift: int):
     encrypted = ""
     if isinstance(shift, int):

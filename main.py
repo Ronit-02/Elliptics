@@ -6,7 +6,7 @@ import resources.rsa as rsa
 import resources.vigenere as vig
 
 
-st.markdown("# ELLIPTCS")
+st.markdown("# ELLIPTICS")
 
 
 # SIDEBAR
@@ -54,35 +54,15 @@ if selected_technique == "Vigenère":
             
             if selected_type == "Encryption":
                 "Encrypted Text"
-                st.code(vig.encrypt(key, text))    
+                print(key,text)
+                st.code(vig.Encryption(text,key))    
             else: 
                 "Decrypted Text"
-                st.code(vig.decrypt(key, text))
-            
-            # with st.expander("Given Key"):
-            #     st.info(key)
-
-            # with st.expander("Given text"):
-            #     st.info(text)
-
-            # with st.expander("Encrypted Text"):
-            #     encrypted = vig.encrypt(key, text)
-            #     st.info(encrypted)
-
-            # with st.expander("Decrypted Text"):
-            #     decrypted = vig.decrypt(key, encrypted)
-            #     st.info(decrypted)
+                print(key,text)
+                st.code(vig.Decryption(text,key))
 
         else:
             st.error("Please enter text.")
-
-    
-
-    # st.subheader("Details")
-    # st.write("Text: ", st.session_state.plain_text)
-    # st.write("Key: ", Key)
-    # st.write("Transformed Text: ", cipher_text)
-
 
 if selected_technique == "Caesar":
 
@@ -184,7 +164,32 @@ if selected_technique == 'RSA':
     secure data transmission. It is also one of the oldest.
     """)
 
+    # P and Q Value
 
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        p = st.number_input(
+        label="P value:", step=1, help="Number of bits to shift each bit with.")
+    with col2:
+        q = st.number_input(
+        label="Q value:", step=1, help="Number of bits to shift each bit with.")
+    with col3:
+        val = (p-1)*(q-1)
+        e = st.number_input(
+        label="E value:", step=1, help=f"Enter e such that it is co-prime to {val}. eg: {val+1}")
+
+    # phi = (p-1)*(q-1)
+    # def gcd(a, b):
+    #     while b != 0:
+    #         a, b = b, a % b
+    #     return a
+    # e = random.randrange(1, phi)
+    # res = gcd(e, phi)
+
+    # while res != 1:
+    #     e = random.randrange(1, phi)
+    #     res = gcd(e, phi)
+    
     # Text Area or File Upload
 
     input_type = st.selectbox(
@@ -202,45 +207,28 @@ if selected_technique == 'RSA':
         if file is not None:
             text = file.getvalue().decrypt("utf-8")
 
-
-    # P and Q Value
-
-    col1, col2 = st.columns([2,2])
-    with col1:
-        p = st.number_input(
-        label="P value:", step=1, help="Number of bits to shift each bit with.")
-    with col2:
-        q = st.number_input(
-        label="Q value:", step=1, help="Number of bits to shift each bit with.")
-    
-
     # Start Button
 
     if st.button("Start"):
         check_p = rsa.prime_check(p)
-        if(check_p==False):
-            st.error("Please enter prime value.")
         check_q = rsa.prime_check(q)
+        check_e = rsa.co_prime_check(e,p,q)
+        if(p == q):
+            st.error("Value of P and Q should not be equal")
+        if(check_p==False):
+            st.error("Please enter prime value of P.")
         if(check_q==False):
-            st.error("Please enter prime value.")
-
-        n = p * q
-        r= (p-1)*(q-1)
-        for i in range(1,1000):
-            if(rsa.egcd(i,r)==1):
-                e=i
-        rsa.eugcd(e,r)
-        d = rsa.mult_inv(e,r)
-        public = (e,n)
-        private = (d,n)
+            st.error("Please enter prime value of Q.")
+        if(check_e==False):
+            st.error(f"Please enter co-prime value of E. Eg: {(p-1)*(q-1)+1}")
 
         if text.strip() != "":
             if selected_type == "Encryption":
                 "Encrypted Text"
-                st.code(rsa.encrypt(public, text))    
+                st.code(rsa.Encrypt(p,q,e,text))    
             else: 
                 "Decrypted Text"
-                st.code(rsa.decrypt(private, text))
+                st.code(rsa.Decrypt(p,q,e,text))
         else:
             st.error("Please enter text.")
 
