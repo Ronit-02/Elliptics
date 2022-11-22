@@ -4,6 +4,7 @@ import resources.caesar as cs
 import resources.playfair as pf
 import resources.rsa as rsa
 import resources.vigenere as vig
+import resources.railfence as rf
 
 
 st.markdown("# ELLIPTICS")
@@ -12,7 +13,7 @@ st.markdown("# ELLIPTICS")
 # SIDEBAR
 
 selected_type = st.sidebar.selectbox("Select a type", ("Encryption", "Decryption"))
-selected_technique = st.sidebar.selectbox("Select a technique", ("Vigenère", "PlayFair", "Caesar",  "RSA"))
+selected_technique = st.sidebar.selectbox("Select a technique", ("Vigenère", "PlayFair", "Caesar",  "RSA", "Rail Fence"))
 
 
 
@@ -233,6 +234,55 @@ if selected_technique == 'RSA':
             st.error("Please enter text.")
 
 
+if selected_technique == "Rail Fence":
+    # st.markdown("# Rail Fence")
+    st.caption(""" The rail fence cipher is a classical type of transposition cipher. 
+    It derives its name from the manner in which encryption/decryption is performed, 
+    in analogy to a fence built with horizontal rails.
+    """)
+
+
+    # Text Area or File Upload
+
+    input_type = st.selectbox(
+        label="Select input type",
+        options=["Text", "File"],
+        help="Select your input type (i.e. text or file).",
+    )
+
+    if input_type == "Text":
+        text = st.text_area(
+            "Enter text:", help="The text to encrypt.", height=45)
+    else:
+        file = st.file_uploader(label="Upload a file:",
+                                help="The file to encrypt.")
+        if file is not None:
+            text = file.getvalue().decode("utf-8")
+
+
+    # Shift Value
+
+    col1, col2 = st.columns([2,3])
+    with col1:
+        shift_by = st.number_input(
+        label="Enter a integer key:", step=1, help="Number of rows."
+    )
+    with col2:
+        pass
+
+    
+    # Start Button
+
+    if st.button("Start"):
+        if text.strip() != "":
+            if selected_type == "Encryption":
+                "Encrypted Text"
+                st.code(rf.encrypt(text, shift_by))    
+            else: 
+                "Decrypted Text"
+                st.code(rf.decrypt(text, shift_by))
+        else:
+            st.error("Please enter text.")
 
 
 
