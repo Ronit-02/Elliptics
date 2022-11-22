@@ -45,7 +45,7 @@ if selected_technique == "Vigenère":
         file = st.file_uploader(label="Upload a file:",
                                 help="The text file to encrypt.")
         if file is not None:
-            text = file.getvalue().decrypt("utf-8")
+            text = file.getvalue().decode("utf-8")
 
 
     # Start Button
@@ -88,7 +88,7 @@ if selected_technique == "Caesar":
         file = st.file_uploader(label="Upload a file:",
                                 help="The file to encrypt.")
         if file is not None:
-            text = file.getvalue().decrypt("utf-8")
+            text = file.getvalue().decode("utf-8")
 
 
     # Shift Value
@@ -142,7 +142,7 @@ if selected_technique == "PlayFair":
         file = st.file_uploader(label="Upload a file:",
                                 help="The text file to encrypt.")
         if file is not None:
-            text = file.getvalue().decrypt("utf-8")
+            text = file.getvalue().decode("utf-8")
 
 
     # Start Button
@@ -206,7 +206,7 @@ if selected_technique == 'RSA':
         file = st.file_uploader(label="Upload a file:",
                                 help="The file to encrypt.")
         if file is not None:
-            text = file.getvalue().decrypt("utf-8")
+            text = file.getvalue().decode("utf-8")
 
     # Start Button
 
