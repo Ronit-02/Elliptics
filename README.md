@@ -1,6 +1,6 @@
 # Elliptics
 
-Elliptics is an app used to encrypt or decrypt your files using various encryption techniques available
+Elliptics is an application used to Encrypt and Eecrypt your files and texts using various encryption techniques (RSA, Playfair, Railfence, etc) within a few seconds. This website is deployed and can be accessed here [Elliptics](https://elliptics.streamlit.app/)
 
 ## Features & Outlook
 - Encryption using various techniques
